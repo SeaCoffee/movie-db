@@ -1,23 +1,26 @@
-import React from 'react';
+import { useEffect } from 'react';
+
 import { Outlet } from 'react-router-dom';
 
-import {Header} from "../HeaderComponent/HeaderComponent";
-import {useTheme} from "../../contexts/ThemeContext";
+import { useAppDispatch } from '../../hooks/appDispatchHook';
+import { fetchGenres } from '../../store/slices/genreSlice';
+import { Header } from '../HeaderComponent/HeaderComponent';
 
+import './MainLayout.module.css';
 
+export const MainLayout = () => {
+  const dispatch = useAppDispatch();
 
-export const MainLayout: React.FC = () => {
-    const { theme } = useTheme();
+  useEffect(() => {
+    dispatch(fetchGenres());
+  }, [dispatch]);
 
-    const layoutStyle = {
-        backgroundColor: theme === 'light' ? 'white' : 'black',
-        color: theme === 'light' ? 'black' : 'white',
-    };
-
-    return (
-        <div style={layoutStyle}>
-            <Header />
-            <Outlet />
-        </div>
-    );
+  return (
+    <div className="app-layout">
+      <Header />
+      <main className="app-layout__main">
+        <Outlet />
+      </main>
+    </div>
+  );
 };

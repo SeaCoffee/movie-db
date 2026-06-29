@@ -13,9 +13,9 @@ import {useAppDispatch} from "../../hooks/appDispatchHook";
 import {useAppSelector} from "../../hooks/appDispatchHook";
 import {fetchMovie} from "../../store/slices/moviesListSlice";
 import {BackButton} from "../BackButtonComponent/BackButtonComponent";
-import {GenreBadge} from "../GenreBeigeComponent/GenreBeigeComponent";
+import {GenreBadge} from "../GenreBadgeComponent/GenreBadgeComponent";
 
-import './MovieInfo.css'
+import './MovieInfo.module.css'
 
 
 
@@ -42,7 +42,7 @@ export const MovieInfo: React.FC = () => {
                 <Grid container spacing={2}>
                     <BackButton/>
                     <Grid item xs={12} sm={4}>
-                        <PosterPreview imageUrl={movie.poster_path} title={movie.title}/>
+                        <PosterPreview imagePath={movie.poster_path} title={movie.title} />
                     </Grid>
                     <Grid item xs={12} sm={8}>
                         <Typography variant="h5" component="h2" style={{marginBottom: '1rem'}}>

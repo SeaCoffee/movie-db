@@ -1,27 +1,24 @@
-import React from 'react';
 import { useParams } from 'react-router-dom';
 
-import {MovieGenre} from "../components/GenresComponent/GenresComponent";
+import { PageMessage } from '../components/common/PageMessage';
+import { MovieGenre } from '../components/MovieGenre/MovieGenre';
+import { uiText } from '../constants/uiText';
+import { parsePositiveIntParam } from '../utils/routeParams';
 
+const MoviesListGenrePage = () => {
+  const { genreId } = useParams<{ genreId: string }>();
 
+  const genreIdNumber = parsePositiveIntParam(genreId);
 
-const MoviesListGenrePage: React.FC = () => {
-    const { genreId } = useParams<{ genreId: string }>();
+  if (!genreId) {
+    return <PageMessage message={uiText.genreNotFound} />;
+  }
 
-    if (!genreId) {
-        return <div>Genre not found</div>;
-    }
+  if (!genreIdNumber) {
+    return <PageMessage message={uiText.invalidGenreId} />;
+  }
 
-    const genreIdNumber = parseInt(genreId, 10);
-    if (isNaN(genreIdNumber)) {
-        return <div>Invalid genre ID</div>;
-    }
-
-    return (
-        <div>
-            <MovieGenre genreId={genreIdNumber} />
-        </div>
-    );
+  return <MovieGenre genreId={genreIdNumber} />;
 };
 
 export default MoviesListGenrePage;

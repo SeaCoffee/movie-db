@@ -1,59 +1,56 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-
-import {Genre} from "../../interfaces/responseInterfaces";
-import {genresService} from "../../servises/axiosService";
-
+import type { Genre } from '../../types/tmdbTypes';
+import { genreService } from '../../servises/genreService';
+import type { RequestStatus } from '../../constants/requestStatus';
+import { requestStatus } from '../../constants/requestStatus';
+import { errorMessages } from '../../constants/errorMessages';
 
 type GenresState = {
-    genres: Genre[];
-    status: 'idle' | 'loading' | 'succeeded' | 'failed';
-    error: string | null;
+  genres: Genre[];
+  status: RequestStatus;
+  error: string | null;
 };
 
 const initialState: GenresState = {
-    genres: [],
-    status: 'idle',
-    error: null,
+  genres: [],
+  status: requestStatus.idle,
+  error: null,
 };
 
+export const fetchGenres = createAsyncThunk<
+  Genre[],
+  void,
+  { rejectValue: string }
+>('genres/fetchGenres', async (_, { rejectWithValue }) => {
+  try {
+    const data = await genreService.getAll();
 
-export const fetchGenres = createAsyncThunk<Genre[], void, { rejectValue: string }>(
-    'genres/fetchGenres',
-    async (_, { rejectWithValue }) => {
-        try {
-            const response = await genresService.getAll();
-            console.log('fetchGenres response:', response);
-            return response.data.genres;
-        } catch (error) {
-            console.error('fetchGenres error:', error);
-            return rejectWithValue('An error occurred while loading genres');
-        }
-    }
-);
-
+    return data.genres;
+  } catch {
+    return rejectWithValue(errorMessages.genresLoadFailed);
+  }
+});
 
 const genresSlice = createSlice({
-    name: 'genres',
-    initialState,
-    reducers: {},
-    extraReducers: (builder) => {
-        builder
-            .addCase(fetchGenres.pending, (state) => {
-                console.log('Loading genres...');
-                state.status = 'loading';
-            })
-            .addCase(fetchGenres.fulfilled, (state, action) => {
-                console.log('Genres loaded:', action.payload);
-                state.status = 'succeeded';
-                state.genres = action.payload;
-            })
-            .addCase(fetchGenres.rejected, (state, action) => {
-                console.log('Failed to load genres:', action.payload);
-
-              state.status = 'failed';
-                state.error = action.payload as string;
-            });
-    },
+  name: 'genres',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchGenres.pending, (state) => {
+        state.status = requestStatus.loading;
+        state.error = null;
+      })
+      .addCase(fetchGenres.fulfilled, (state, action) => {
+        state.status = requestStatus.succeeded;
+        state.genres = action.payload;
+      })
+      .addCase(fetchGenres.rejected, (state, action) => {
+        state.status = requestStatus.failed;
+        state.error = action.payload ?? errorMessages.genresLoadFailed;
+      });
+  },
 });
+
 export default genresSlice.reducer;

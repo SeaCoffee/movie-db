@@ -1,0 +1,36 @@
+:root {
+  --app-bg-color: #ffffff;
+  --app-text-color: #111111;
+  --app-header-bg: #ffffff;
+  --app-border-color: #dddddd;
+}
+
+:root[data-theme='dark'] {
+  --app-bg-color: #050505;
+  --app-text-color: #ffffff;
+  --app-header-bg: #050505;
+  --app-border-color: #333333;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--app-bg-color);
+  color: var(--app-text-color);
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-clear-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}

@@ -1,0 +1,14 @@
+.app-layout {
+  min-height: 100vh;
+  background-color: var(--app-bg-color);
+  color: var(--app-text-color);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.app-layout__main {
+  width: min(100% - 32px, 1280px);
+  margin-inline: auto;
+  padding-block: 24px;
+}

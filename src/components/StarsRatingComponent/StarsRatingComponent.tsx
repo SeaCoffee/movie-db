@@ -1,24 +1,21 @@
-import React from 'react';
+import { Box, Rating } from '@mui/material';
 
-import Rating from '@mui/material/Rating';
-import Box from '@mui/material/Box';
-
-
-export interface StarsRatingProps {
-    rating: number;
-}
-
-
-export const StarsRating: React.FC<StarsRatingProps> = ({ rating }) => {
-    return (
-        <Box>
-            <Rating
-                name="rating"
-                value={rating / 2}
-                precision={0.5}
-                size="large"
-            />
-        </Box>
-    );
+type StarsRatingProps = {
+  rating?: number | null;
 };
 
+export const StarsRating = ({ rating }: StarsRatingProps) => {
+  const normalizedRating = rating ?? 0;
+
+  return (
+    <Box>
+      <Rating
+        name="movie-rating"
+        value={normalizedRating / 2}
+        precision={0.5}
+        size="large"
+        readOnly
+      />
+    </Box>
+  );
+};

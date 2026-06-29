@@ -1,46 +1,110 @@
-# Getting Started with Create React App
+# Movie-DB
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React + TypeScript movie browser built with The Movie Database API.
+
+The app allows users to browse popular movies, filter movies by genre, search by title, open movie detail pages, view ratings, posters, descriptions, release information, budget, revenue, runtime, and production countries.
+
+## Features
+
+* Popular movies list
+* Movie search
+* Genre-based movie browsing
+* Movie detail page
+* Pagination
+* Light/dark theme toggle
+* TMDB poster images
+* Typed Redux store
+* API layer separated from UI components
+* Environment-based API configuration
+
+## Tech Stack
+
+* React 18
+* TypeScript
+* Redux Toolkit
+* React Redux
+* React Router
+* Axios
+* Material UI
+* React Hook Form
+* Create React App
+
+## Project Structure
+
+```txt
+src/
+  api/              Axios client and TMDB endpoints
+  components/       Reusable UI components
+  config/           Environment-based app config
+  constants/        Routes, UI text, request statuses
+  contexts/         Theme context
+  hooks/            Typed Redux hooks and custom hooks
+  pages/            Route-level pages
+  services/         API service functions
+  store/            Redux store and slices
+  styles/           Global theme styles
+  types/            TMDB response types
+  utils/            Shared utility functions
+```
+
+## Environment Variables
+
+Create a `.env` file in the project root:
+
+```env
+REACT_APP_TMDB_API_BASE_URL=https://api.themoviedb.org
+REACT_APP_TMDB_IMAGE_BASE_URL=https://image.tmdb.org/t/p
+REACT_APP_TMDB_ACCESS_TOKEN=your_tmdb_read_access_token_here
+```
+
+The app uses a TMDB Read Access Token for API requests.
+
+Do not commit your real `.env` file. Use `.env.example` as a safe template.
+
+## Getting Started
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm start
+```
+
+Open:
+
+```txt
+http://localhost:3000
+```
+
+Build for production:
+
+```bash
+npm run build
+```
 
 ## Available Scripts
 
-In the project directory, you can run:
-
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Runs the app in development mode.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the app for production into the `build` folder.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `npm test`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Runs the test runner.
 
-### `npm run eject`
+### `npm run lint`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Runs ESLint checks.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Notes
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+This is a portfolio/demo project. Movie data and images are provided by The Movie Database API.

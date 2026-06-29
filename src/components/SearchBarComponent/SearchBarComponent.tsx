@@ -1,42 +1,75 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { createSearchParams, useLocation, useNavigate } from 'react-router-dom';
 
-import { setQuery } from "../../store/slices/searchSlice";
-import { useAppDispatch } from "../../hooks/appDispatchHook";
+import { routePaths } from '../../constants/routes';
+import { searchConfig } from '../../constants/searchConfig';
+import { uiText } from '../../constants/uiText';
+import { useAppDispatch } from '../../hooks/appDispatchHook';
+import { setPage, setQuery } from '../../store/slices/searchSlice';
 
-import './SearchBar.css';
+import styles from './SearchBarComponent.module.css';
 
-type FormData = {
-    search: string;
+type SearchFormData = {
+  search: string;
 };
 
-export const SearchBar: React.FC = () => {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
-    const dispatch = useAppDispatch();
-    const navigate = useNavigate();
-    const location = useLocation();
+export const SearchBar = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    const onSubmit = (data: FormData) => {
-        dispatch(setQuery(data.search));
-        navigate(`/search?query=${data.search}&from=${location.pathname}`);
-        reset();
-    };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<SearchFormData>({
+    defaultValues: {
+      search: '',
+    },
+  });
 
+  const onSubmit = ({ search }: SearchFormData) => {
+    const query = search.trim();
 
-    return (
-        <form onSubmit={handleSubmit(onSubmit)} className="search-form">
-            <input
-                {...register('search', { required: true, minLength: 3 })}
-                className="search-input"
-                type="text"
-                placeholder="Search for movies..."
-            />
-            {errors.search && <p className="error-message">Required field</p>}
-            <button className="search-button" type="submit">Search</button>
-        </form>
-    );
+    dispatch(setQuery(query));
+    dispatch(setPage(1));
+
+    navigate({
+      pathname: routePaths.search,
+      search: createSearchParams({
+        query,
+        page: '1',
+        from: `${location.pathname}${location.search}`,
+      }).toString(),
+    });
+
+    reset();
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <input
+        {...register('search', {
+          required: uiText.searchRequired,
+          minLength: {
+            value: searchConfig.minQueryLength,
+            message: uiText.searchMinLength,
+          },
+          setValueAs: (value: string) => value.trim(),
+        })}
+        className={styles.input}
+        type="text"
+        placeholder={uiText.searchPlaceholder}
+      />
+
+      <button className={styles.button} type="submit">
+        {uiText.search}
+      </button>
+
+      {errors.search?.message && (
+        <p className={styles.error}>{errors.search.message}</p>
+      )}
+    </form>
+  );
 };
-
-

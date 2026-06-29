@@ -9,13 +9,13 @@ import Typography from '@mui/material/Typography';
 
 import {PosterPreview} from "../PosterPreview/PosterPreview";
 import {StarsRating} from "../StarsRatingComponent/StarsRatingComponent";
-import {GenreBadge} from "../GenreBeigeComponent/GenreBeigeComponent";
-import {Movie} from "../../interfaces/responseInterfaces";
+import {GenreBadge} from "../GenreBadgeComponent/GenreBadgeComponent";
+import type { MovieListItem } from '../../types/tmdbTypes';
 
 
 
 interface MoviesListCardProps {
-    movie: Movie;
+    movie: MovieListItem ;
     movieClick?: (movieId: number) => void;
 }
 
@@ -44,7 +44,7 @@ export const MoviesListCard: React.FC<MoviesListCardProps> = ({ movie }) => {
 
 
             <CardActionArea>
-                <PosterPreview imageUrl={movie.poster_path} title={movie.title} />
+                <PosterPreview imagePath={movie.poster_path} title={movie.title} />
                 <CardContent sx={{
                     display: 'flex',
                     flexDirection: 'column',

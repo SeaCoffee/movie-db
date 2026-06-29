@@ -1,10 +1,5 @@
-import React from 'react';
-import {SearchResults} from "../components/SearchComponent/SearchResult";
+import { SearchResults } from '../components/SearchComponent/SearchResult';
 
 export const SearchPage = () => {
-    return (
-        <div>
-            <SearchResults />
-        </div>
-    );
+  return <SearchResults />;
 };

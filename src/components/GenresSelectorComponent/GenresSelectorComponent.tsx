@@ -1,65 +1,64 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import {
+  Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+} from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import { List, ListItem, ListItemText, Divider } from '@mui/material';
+import {
+  buildGenreMoviesPath,
+  routePaths,
+} from '../../constants/routes';
+import { uiText } from '../../constants/uiText';
+import { useAppSelector } from '../../hooks/appDispatchHook';
 
-import {useAppSelector} from "../../hooks/appDispatchHook";
-
-
-
-interface GenreSelectorProps {
-    onClose?: () => void;
-}
-
-export const GenreSelector: React.FC<GenreSelectorProps> = ({ onClose }) => {
-    const genres = useAppSelector((state) => state.genres.genres);
-    const navigate = useNavigate();
-    const location = useLocation();
-
-    const handleGenreClick = (genreId?: number) => {
-        const path = genreId ? `/genres/${genreId}` : '/';
-        console.log(`Navigating to: ${path}`);
-        navigate(path);
-        if (onClose) onClose();
-    };
-
-    if (!genres.length) {
-        return <div>Loading...</div>;
-    }
-
-
-    return (
-        <List>
-            <ListItem
-                onClick={() => handleGenreClick()}
-                sx={{
-                    padding: '10px 16px',
-                    backgroundColor: location.pathname === '/' ? 'lightblue' : 'inherit',
-                    fontWeight: 'bold',
-                    borderTop: '1px solid #ddd',
-                    borderBottom: '1px solid #ddd',
-                    mb: 1,
-                    cursor: 'pointer',
-                }}
-            >
-                <ListItemText primary="Home" />
-            </ListItem>
-            <Divider />
-            {genres.map(genre => (
-                <ListItem
-                    key={genre.id}
-                    onClick={() => handleGenreClick(genre.id)}
-                    sx={{
-                        padding: '10px 16px',
-                        backgroundColor: location.pathname === `/genres/${genre.id}` ? 'lightblue' : 'inherit',
-                        cursor: 'pointer',
-                    }}
-                >
-                    <ListItemText primary={genre.name} />
-                </ListItem>
-            ))}
-        </List>
-    );
+type GenreSelectorProps = {
+  onClose?: () => void;
 };
 
+export const GenreSelector = ({ onClose }: GenreSelectorProps) => {
+  const genres = useAppSelector((state) => state.genres.genres);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavigate = (path: string) => {
+    navigate(path);
+    onClose?.();
+  };
+
+  if (!genres.length) {
+    return <List sx={{ width: 280, p: 2 }}>{uiText.loading}</List>;
+  }
+
+  return (
+    <List sx={{ width: 280 }}>
+      <ListItem disablePadding>
+        <ListItemButton
+          selected={location.pathname === routePaths.home}
+          onClick={() => handleNavigate(routePaths.home)}
+        >
+          <ListItemText primary={uiText.home} />
+        </ListItemButton>
+      </ListItem>
+
+      <Divider />
+
+      {genres.map((genre) => {
+        const genrePath = buildGenreMoviesPath(genre.id);
+
+        return (
+          <ListItem key={genre.id} disablePadding>
+            <ListItemButton
+              selected={location.pathname === genrePath}
+              onClick={() => handleNavigate(genrePath)}
+            >
+              <ListItemText primary={genre.name} />
+            </ListItemButton>
+          </ListItem>
+        );
+      })}
+    </List>
+  );
+};

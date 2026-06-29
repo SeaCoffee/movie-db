@@ -1,15 +1,21 @@
-import React from 'react';
-import {posterService} from "../../servises/axiosService";
+import { posterService } from '../../servises/posterService';
 
-export interface PosterPreviewProps {
-    imageUrl: string;
-    title: string;
-}
+import styles from './PosterPreview.module.css';
 
-export const PosterPreview: React.FC<PosterPreviewProps> = ({ imageUrl, title }) => {
-    const posterUrl = posterService.getPosterUrl(imageUrl);
+type PosterPreviewProps = {
+  imagePath?: string | null;
+  title: string;
+};
 
-    return (
-        <img src={posterUrl} alt={title} style={{ width: '100%', height: '300px', objectFit: 'cover' }} />
-    );
+export const PosterPreview = ({ imagePath, title }: PosterPreviewProps) => {
+  const posterUrl = posterService.getPosterUrl(imagePath);
+
+  return (
+    <img
+      src={posterUrl}
+      alt={title}
+      className={styles.poster}
+      loading="lazy"
+    />
+  );
 };

@@ -1,0 +1,52 @@
+.header {
+  background-color: var(--app-header-bg) !important;
+  color: var(--app-text-color) !important;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.toolbar {
+  min-height: 96px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.menuButton {
+  width: 56px;
+  height: 56px;
+}
+
+.title {
+  flex-grow: 1;
+  padding: 0 24px;
+  font-weight: 700;
+}
+
+.search {
+  min-width: 280px;
+}
+
+.themeSwitch {
+  margin-inline: 8px;
+}
+
+@media (max-width: 768px) {
+  .toolbar {
+    min-height: auto;
+    flex-wrap: wrap;
+    padding-block: 12px;
+  }
+
+  .title {
+    padding: 0;
+    font-size: 1.75rem;
+  }
+
+  .search {
+    order: 10;
+    width: 100%;
+    min-width: 100%;
+  }
+}

@@ -1,14 +1,7 @@
-import React from "react";
+import { MoviesListComponent } from '../components/MoviesListComponent/MoviesListComponent';
 
-import {MoviesListComponent} from "../components/MoviesListComponent/MoviesListComponent";
-
-
-const MoviesListPage: React.FC = () => {
-    return (
-        <div>
-            <MoviesListComponent />
-        </div>
-    );
+const MoviesListPage = () => {
+  return <MoviesListComponent />;
 };
 
-export default MoviesListPage
+export default MoviesListPage;
